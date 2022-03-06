@@ -75,7 +75,45 @@ class ReflexAgent(Agent):
         newScaredTimes = [ghostState.scaredTimer for ghostState in newGhostStates]
 
         "*** YOUR CODE HERE ***"
-        return successorGameState.getScore()
+        from util import manhattanDistance
+                
+        evalScore = successorGameState.getScore() - currentGameState.getScore() # Relative score 
+        
+        newFoodList = newFood.asList()
+        newFoodDistance = []
+        for food in newFoodList:
+            newFoodDistance.append(manhattanDistance(food, newPos))
+        
+        capsules = successorGameState.getCapsules()
+        newCapsuleDistance = []
+        for capsule in capsules:
+            newCapsuleDistance.append(manhattanDistance(newPos, capsule))
+                            
+        ghostNewPosition = []
+        ghostNewDistance = []
+        for ghost in newGhostStates:
+            ghostNewPosition.append(ghost.getPosition())
+            
+        for ghost in ghostNewPosition:
+            ghostNewDistance.append(manhattanDistance(ghost, newPos))
+                    
+        capsuleRelativeValue = 1 + (len(newGhostStates) + len(capsules))/2
+        
+        for distance in newFoodDistance:
+            evalScore += 1/distance
+        
+        for distance in newCapsuleDistance:
+            evalScore += (capsuleRelativeValue/distance)    
+        
+        for distance in ghostNewDistance:
+            if distance == 0:
+                return - 1000
+            else:
+                evalScore -= capsuleRelativeValue/distance
+            
+        return evalScore
+            
+        # return successorGameState.getScore()
 
 def scoreEvaluationFunction(currentGameState: GameState):
     """
