@@ -169,6 +169,51 @@ class MinimaxAgent(MultiAgentSearchAgent):
         Returns whether or not the game state is a losing state
         """
         "*** YOUR CODE HERE ***"
+        numberOfGhosts = gameState.getNumAgents() - 1 # Total agents = Pacman + Ghosts
+        
+        def maxAgent(gameState: GameState, depth):
+            maxValue = -99999999
+            currentDepth = depth + 1
+            if gameState.isWin() or gameState.isLose() or currentDepth == self.depth:
+                return self.evaluationFunction(gameState)
+            legalActions = gameState.getLegalActions(0)
+            
+            for action in legalActions:
+                nextState = gameState.generateSuccessor(0,action)
+                maxValue = max(maxValue,minAgent(nextState, 1, currentDepth))                
+            return maxValue
+        
+        def minAgent(gameState: GameState, ghostIndex, depth):
+            
+            minValue = 999999999
+            if gameState.isWin() or gameState.isLose():
+                return self.evaluationFunction(gameState)
+            
+            legalActions = gameState.getLegalActions(ghostIndex)
+
+            for action in legalActions:
+                nextState = gameState.generateSuccessor(ghostIndex,action)
+                if ghostIndex == numberOfGhosts:
+                    minValue = min(minValue, maxAgent(nextState, depth))
+                else:
+                    minValue = min(minValue, minAgent(nextState, ghostIndex + 1, depth))
+            return minValue
+        
+        legalActions = gameState.getLegalActions(0)
+        idealAction = ''
+        idealActionScore = -1000000
+        
+        # Main function that uses helper functions defined abovr
+        # Starting case where depth = 0; Pacman plays first followed by ghosts
+        for action in legalActions:
+            nextState = gameState.generateSuccessor(0, action)
+            nextStateScore = minAgent(nextState, 1, 0)
+            
+            if nextStateScore >= idealActionScore:
+                idealAction = action
+                idealActionScore = nextStateScore
+                
+        return idealAction
         util.raiseNotDefined()
 
 class AlphaBetaAgent(MultiAgentSearchAgent):
