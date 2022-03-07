@@ -102,9 +102,6 @@ class ReflexAgent(Agent):
         for distance in newFoodDistance:
             evalScore += 1/distance
         
-        for distance in newCapsuleDistance:
-            evalScore += (capsuleRelativeValue/distance)    
-        
         for distance in ghostNewDistance:
             if distance == 0:
                 return - 1000
