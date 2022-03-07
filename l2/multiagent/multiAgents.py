@@ -109,9 +109,7 @@ class ReflexAgent(Agent):
                 evalScore -= capsuleRelativeValue/distance
             
         return evalScore
-            
-        # return successorGameState.getScore()
-
+    
 def scoreEvaluationFunction(currentGameState: GameState):
     """
     This default evaluation function just returns the score of the state.
