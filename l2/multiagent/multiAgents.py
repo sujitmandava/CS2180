@@ -226,6 +226,64 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
         Returns the minimax action using self.depth and self.evaluationFunction
         """
         "*** YOUR CODE HERE ***"
+        numberOfGhosts = gameState.getNumAgents() - 1 # Total agents = Pacman + Ghosts
+        
+        def maxAgent(gameState: GameState, depth, alpha, beta):
+            maxValue = -99999999
+            currentDepth = depth + 1
+            alphaTemp = alpha
+            
+            if gameState.isWin() or gameState.isLose() or currentDepth == self.depth:
+                return self.evaluationFunction(gameState)
+            legalActions = gameState.getLegalActions(0)
+            
+            for action in legalActions:
+                nextState = gameState.generateSuccessor(0,action)
+                maxValue = max(maxValue,minAgent(nextState, 1, currentDepth, alphaTemp, beta))
+                if maxValue > beta:
+                    return maxValue
+                alphaTemp = max(alphaTemp, maxValue)                
+            return maxValue
+        
+        def minAgent(gameState: GameState, ghostIndex, depth, alpha, beta):
+            minValue = 999999999
+            betaTemp = beta
+            if gameState.isWin() or gameState.isLose():
+                return self.evaluationFunction(gameState)
+            
+            legalActions = gameState.getLegalActions(ghostIndex)
+
+            for action in legalActions:
+                nextState = gameState.generateSuccessor(ghostIndex,action)
+                if ghostIndex == numberOfGhosts:
+                    minValue = min(minValue, maxAgent(nextState, depth, alpha, betaTemp))
+                else:
+                    minValue = min(minValue, minAgent(nextState, ghostIndex + 1, depth, alpha, betaTemp))
+                    
+                if minValue < alpha:
+                    return minValue
+                betaTemp = min(betaTemp, minValue)
+            return minValue
+        
+        legalActions = gameState.getLegalActions(0)
+        idealAction = ''
+        idealActionScore = -1000000
+        alpha = -99999999
+        beta = 99999999
+        
+        # Main function that uses helper functions defined abovr
+        # Starting case where depth = 0; Pacman plays first followed by ghosts
+        
+        for action in legalActions:
+            nextState = gameState.generateSuccessor(0, action)
+            nextStateScore = minAgent(nextState, 1, 0, alpha, beta)
+            
+            if nextStateScore >= idealActionScore:
+                idealAction = action
+                idealActionScore = nextStateScore
+            alpha = max(alpha, nextStateScore)
+                
+        return idealAction
         util.raiseNotDefined()
 
 class ExpectimaxAgent(MultiAgentSearchAgent):
