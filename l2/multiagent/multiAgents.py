@@ -348,7 +348,11 @@ def betterEvaluationFunction(currentGameState: GameState):
     Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
     evaluation function (question 5).
 
-    DESCRIPTION: The total score for a state is a linear co
+    DESCRIPTION: 
+    The evaluation function for a state takes into account the positions of the food pellets, the ghosts, and the power pellets. 
+    It considers a linear combination of the mentioned factors while assigning an increased relative value to the positions of the ghosts and the power pellets.
+    The agent only takes into account the positions of the active ghosts, i.e, ghosts that are not scared of Pacman. The reciprocals of the distances are 
+    considered because the closer the pellets the better.
     """
     "*** YOUR CODE HERE ***"
     newPos = currentGameState.getPacmanPosition()
