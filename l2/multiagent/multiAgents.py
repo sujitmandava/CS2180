@@ -83,12 +83,7 @@ class ReflexAgent(Agent):
         newFoodDistance = []
         for food in newFoodList:
             newFoodDistance.append(manhattanDistance(food, newPos))
-        
-        capsules = successorGameState.getCapsules()
-        newCapsuleDistance = []
-        for capsule in capsules:
-            newCapsuleDistance.append(manhattanDistance(newPos, capsule))
-                            
+                                    
         ghostNewPosition = []
         ghostNewDistance = []
         for ghost in newGhostStates:
@@ -97,7 +92,7 @@ class ReflexAgent(Agent):
         for ghost in ghostNewPosition:
             ghostNewDistance.append(manhattanDistance(ghost, newPos))
                     
-        capsuleRelativeValue = 1 + (len(newGhostStates) + len(capsules))/2
+        ghostRelativeValue = 1 + (len(newGhostStates))/2
         
         for distance in newFoodDistance:
             evalScore += 1/distance
@@ -106,7 +101,7 @@ class ReflexAgent(Agent):
             if distance == 0:
                 return - 1000
             else:
-                evalScore -= capsuleRelativeValue/distance
+                evalScore -= ghostRelativeValue/distance
             
         return evalScore
     
@@ -353,10 +348,44 @@ def betterEvaluationFunction(currentGameState: GameState):
     Your extreme ghost-hunting, pellet-nabbing, food-gobbling, unstoppable
     evaluation function (question 5).
 
-    DESCRIPTION: <write something here so we know what you did>
+    DESCRIPTION: The total score for a state is a linear co
     """
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    newPos = currentGameState.getPacmanPosition()
+    newFood = currentGameState.getFood()
+    newGhostStates = currentGameState.getGhostStates()
+
+    from util import manhattanDistance
+    
+    evalScore = currentGameState.getScore()
+    
+    newFoodList = newFood.asList()
+    newFoodDistance = []
+    for food in newFoodList:
+        newFoodDistance.append(manhattanDistance(food, newPos))
+    
+    capsules = currentGameState.getCapsules()
+    newCapsuleDistance = []
+    for capsule in capsules:
+        newCapsuleDistance.append(manhattanDistance(newPos, capsule))
+    
+    capsuleRelativeValue = 1 + (len(newGhostStates) + len(capsules))/2
+    
+    for ghost in newGhostStates:
+        if ghost.scaredTimer <= 0:
+            if manhattanDistance(newPos, ghost.getPosition()) != 0:
+                evalScore -= capsuleRelativeValue/manhattanDistance(newPos, ghost.getPosition())
+            else:
+                evalScore -= 100000
+    
+    for distance in newFoodDistance:
+        evalScore += 1/distance
+            
+    for distance in newCapsuleDistance:
+            evalScore += (capsuleRelativeValue)/distance
+
+    return evalScore
+    # util.raiseNotDefined()
 
 # Abbreviation
 better = betterEvaluationFunction
