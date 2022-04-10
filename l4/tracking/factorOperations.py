@@ -102,7 +102,50 @@ def joinFactors(factors: ValuesView[Factor]):
 
 
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    conditionedVariablesSet = set()
+    unconditionedVariablesSet = set()
+    varDomDict = {}
+    
+    # print(type(factors))
+    
+    for factor in factors:
+        # print(factor)
+        # print(factor.variableDomainsDict())
+        # print(type(factor.variableDomainsDict()))
+        varDomDict = factor.variableDomainsDict()
+        conditionedVariablesSet = conditionedVariablesSet.union(factor.conditionedVariables())
+        unconditionedVariablesSet = unconditionedVariablesSet.union(factor.unconditionedVariables())
+        # varDomDict[factor] = factors
+                
+    # print(conditionedVariablesSet)
+    # print(unconditionedVariablesSet)
+    # print(type(factors))
+    # print(factors[0])
+    for uvar in unconditionedVariablesSet:
+        if uvar in conditionedVariablesSet:
+            # print(uvar)
+            conditionedVariablesSet.remove(uvar)
+    
+    joinedFactor = Factor(unconditionedVariablesSet, conditionedVariablesSet, varDomDict)
+    # print(joinedFactor.getAllPossibleAssignmentDicts())
+    
+    # print(conditionedVariablesSet)
+    # print(unconditionedVariablesSet)
+    # print(joinedFactor)
+    
+    for a in joinedFactor.getAllPossibleAssignmentDicts():
+        # print(a)
+        joinedFactor.setProbability(a,1.0)
+        for factor in factors:
+            # print(factor)
+            # print(joinedFactor.getProbability(a))
+            # print(factor.getProbability(a))
+            joinedFactor.setProbability(a, factor.getProbability(a) * joinedFactor.getProbability(a))
+            print(joinedFactor.getProbability(a))
+            # joinedFactor.setProbability(a, )
+    
+    return joinedFactor
+    # raiseNotDefined()
     "*** END YOUR CODE HERE ***"
 
 ########### ########### ###########
@@ -153,7 +196,13 @@ def eliminateWithCallTracking(callTrackingList=None):
                     "unconditionedVariables: " + str(factor.unconditionedVariables()))
 
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        uVars = factor.unconditionedVariables()
+        cVars = factor.conditionedVariables()
+        varDoms = factor.variableDomainsDict()
+        
+        print(type(uVars))
+        print(type(cVars))
+        print(type(varDoms))
         "*** END YOUR CODE HERE ***"
 
     return eliminate
