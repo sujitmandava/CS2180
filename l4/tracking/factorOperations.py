@@ -200,9 +200,25 @@ def eliminateWithCallTracking(callTrackingList=None):
         cVars = factor.conditionedVariables()
         varDoms = factor.variableDomainsDict()
         
-        print(type(uVars))
-        print(type(cVars))
-        print(type(varDoms))
+        # print(type(uVars))
+        # print(type(cVars))
+        # print(type(varDoms))
+        
+        uVars.remove(eliminationVariable)
+        revisedFactor = Factor(uVars, cVars, varDoms)
+        
+        for a in revisedFactor.getAllPossibleAssignmentDicts():
+            revisedFactor.setProbability(a,0)
+            p = 0
+            print(a)
+            print(varDoms[eliminationVariable])
+            for evar in varDoms[eliminationVariable]:
+                a[eliminationVariable] = evar
+                print(a)
+                p += factor.getProbability(a)
+            revisedFactor.setProbability(a,p)
+        
+        return revisedFactor
         "*** END YOUR CODE HERE ***"
 
     return eliminate
