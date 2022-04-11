@@ -18,7 +18,7 @@ from typing import List, Dict, Tuple
 import busters
 import game
 import bayesNet as bn
-from bayesNet import normalize
+from bayesNet import BayesNet, normalize
 import hunters
 from util import manhattanDistance, raiseNotDefined
 from factorOperations import joinFactorsByVariableWithCallTracking, joinFactors
@@ -79,7 +79,7 @@ def constructBayesNet(gameState: hunters.GameState):
     variableDomainsDict[GHOST0] = []
     variableDomainsDict[GHOST1] = []
     
-    print(X_RANGE, Y_RANGE)
+    # print(X_RANGE, Y_RANGE)
     for x in range(X_RANGE):
         for y in range(Y_RANGE):
             # print(x,y)
@@ -216,6 +216,21 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
             eliminationOrder = sorted(list(eliminationVariables))
 
         "*** YOUR CODE HERE ***"
+        # print(bayesNet)
+        # print(queryVariables)
+        # print(evidenceDict)
+        # print(eliminationOrder)
+        
+        currFactors = bayesNet.getAllCPTsWithEvidence(evidenceDict)
+        # print(currCPTs)
+        for evar in eliminationOrder:
+            currFactors, joinedFactor = joinFactorsByVariable(currFactors, evar)
+            if len(joinedFactor.unconditionedVariables()) > 1: # If equals or less than 1 discard joinedFactor
+                elimFactor = eliminate(joinedFactor, evar)
+                currFactors.append(elimFactor)
+        
+        factors = joinFactors(currFactors)
+        return normalize(factors)        
         raiseNotDefined()
         "*** END YOUR CODE HERE ***"
 

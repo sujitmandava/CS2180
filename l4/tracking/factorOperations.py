@@ -141,9 +141,9 @@ def joinFactors(factors: ValuesView[Factor]):
             # print(joinedFactor.getProbability(a))
             # print(factor.getProbability(a))
             joinedFactor.setProbability(a, factor.getProbability(a) * joinedFactor.getProbability(a))
-            print(joinedFactor.getProbability(a))
+            # print(joinedFactor.getProbability(a))
             # joinedFactor.setProbability(a, )
-    
+    # print(joinedFactor)
     return joinedFactor
     # raiseNotDefined()
     "*** END YOUR CODE HERE ***"
@@ -210,11 +210,11 @@ def eliminateWithCallTracking(callTrackingList=None):
         for a in revisedFactor.getAllPossibleAssignmentDicts():
             revisedFactor.setProbability(a,0)
             p = 0
-            print(a)
+            # print(a)
             print(varDoms[eliminationVariable])
             for evar in varDoms[eliminationVariable]:
                 a[eliminationVariable] = evar
-                print(a)
+                # print(a)
                 p += factor.getProbability(a)
             revisedFactor.setProbability(a,p)
         
