@@ -213,9 +213,9 @@ def eliminateWithCallTracking(callTrackingList=None):
             # print(a)
             print(varDoms[eliminationVariable])
             for evar in varDoms[eliminationVariable]:
-                a[eliminationVariable] = evar
+                a[eliminationVariable] = evar # Getting old assignment to sum out eliminated variable
                 # print(a)
-                p += factor.getProbability(a)
+                p += factor.getProbability(a) # Summing out the removed variable 
             revisedFactor.setProbability(a,p)
         
         return revisedFactor

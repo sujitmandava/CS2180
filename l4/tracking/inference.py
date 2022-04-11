@@ -221,12 +221,12 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
         # print(evidenceDict)
         # print(eliminationOrder)
         
-        currFactors = bayesNet.getAllCPTsWithEvidence(evidenceDict)
+        currFactors = bayesNet.getAllCPTsWithEvidence(evidenceDict) # Getting initial CPTs
         # print(currCPTs)
         for evar in eliminationOrder:
-            currFactors, joinedFactor = joinFactorsByVariable(currFactors, evar)
+            currFactors, joinedFactor = joinFactorsByVariable(currFactors, evar) # Updating unjoined factors and getting joint factor wrt evar
             if len(joinedFactor.unconditionedVariables()) > 1: # If equals or less than 1 discard joinedFactor
-                elimFactor = eliminate(joinedFactor, evar)
+                elimFactor = eliminate(joinedFactor, evar) # Eliminate evar from joint factor and append to unjoined factors
                 currFactors.append(elimFactor)
         
         factors = joinFactors(currFactors)
