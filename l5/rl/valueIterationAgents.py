@@ -61,7 +61,25 @@ class ValueIterationAgent(ValueEstimationAgent):
 
     def runValueIteration(self):
         # Write value iteration code here
+        states = self.mdp.getStates()
         "*** YOUR CODE HERE ***"
+        for iter in range(self.iterations):
+            temp = util.Counter()
+            
+            for state in states:
+                mv = -9999999
+                stateActions = self.mdp.getPossibleActions(state)
+                for action in stateActions:
+                    tStateProbs = self.mdp.getTransitionStatesAndProbs(state, action)
+                    stateValue = 0
+                    for ts in tStateProbs:
+                        stateValue += ts[1]*(self.mdp.getReward(state, action, ts[0]) + self.discount * self.values[ts[0]])
+                    mv = max(mv, stateValue)
+                if mv != -9999999:
+                    temp[state] = mv
+            
+            for state in states:
+                self.values[state] = temp[state]    
 
     def getValue(self, state):
         """
@@ -75,7 +93,12 @@ class ValueIterationAgent(ValueEstimationAgent):
           value function stored in self.values.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        tStateProbs = self.mdp.getTransitionStatesAndProbs(state, action)
+        qval = 0
+        for ts in tStateProbs:
+            qval += ts[1]*(self.mdp.getReward(state, action, ts[0]) + self.discount * self.values[ts[0]])
+        return qval
+        # util.raiseNotDefined()
 
     def computeActionFromValues(self, state):
         """
@@ -87,7 +110,17 @@ class ValueIterationAgent(ValueEstimationAgent):
           terminal state, you should return None.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        actions = self.mdp.getPossibleActions(state)
+        finalAction = None
+        mv = -9999999
+        for action in actions:
+            qval = self.computeQValueFromValues(state, action)
+            if qval > mv:
+                mv = qval
+                finalAction = action
+        return finalAction
+                
+        # util.raiseNotDefined()
 
     def getPolicy(self, state):
         return self.computeActionFromValues(state)
