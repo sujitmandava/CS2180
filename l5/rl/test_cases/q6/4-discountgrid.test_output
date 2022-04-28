@@ -1,4 +1,22 @@
 ==================== Iteration 0 ====================
+Q-Values at iteration 0 for action 'east' are NOT correct.   Student solution:
+	q_values_k_0_action_east: """
+           illegal      illegal      illegal      illegal      illegal
+           illegal      illegal   __________      illegal      illegal
+           illegal      illegal      illegal      illegal      illegal
+           illegal      illegal   __________   __________      illegal
+           illegal      illegal      illegal      illegal      illegal
+"""
+
+   Correct solution:
+	q_values_k_0_action_east: """
+           illegal       0.0000      illegal       0.0000       0.0000
+           illegal       0.0000   __________       0.0000       0.0000
+           illegal       0.0000      illegal       0.0000       0.0000
+           illegal       0.0000   __________   __________       0.0000
+           illegal       0.0000       0.0000       0.0000       0.0000
+"""
+
 Q-Values at iteration 0 for action 'north' are NOT correct.   Student solution:
 	q_values_k_0_action_north: """
            illegal      illegal      illegal      illegal      illegal
@@ -10,24 +28,6 @@ Q-Values at iteration 0 for action 'north' are NOT correct.   Student solution:
 
    Correct solution:
 	q_values_k_0_action_north: """
-           illegal       0.0000      illegal       0.0000       0.0000
-           illegal       0.0000   __________       0.0000       0.0000
-           illegal       0.0000      illegal       0.0000       0.0000
-           illegal       0.0000   __________   __________       0.0000
-           illegal       0.0000       0.0000       0.0000       0.0000
-"""
-
-Q-Values at iteration 0 for action 'west' are NOT correct.   Student solution:
-	q_values_k_0_action_west: """
-           illegal      illegal      illegal      illegal      illegal
-           illegal      illegal   __________      illegal      illegal
-           illegal      illegal      illegal      illegal      illegal
-           illegal      illegal   __________   __________      illegal
-           illegal      illegal      illegal      illegal      illegal
-"""
-
-   Correct solution:
-	q_values_k_0_action_west: """
            illegal       0.0000      illegal       0.0000       0.0000
            illegal       0.0000   __________       0.0000       0.0000
            illegal       0.0000      illegal       0.0000       0.0000
@@ -53,6 +53,24 @@ Q-Values at iteration 0 for action 'south' are NOT correct.   Student solution:
            illegal       0.0000       0.0000       0.0000       0.0000
 """
 
+Q-Values at iteration 0 for action 'west' are NOT correct.   Student solution:
+	q_values_k_0_action_west: """
+           illegal      illegal      illegal      illegal      illegal
+           illegal      illegal   __________      illegal      illegal
+           illegal      illegal      illegal      illegal      illegal
+           illegal      illegal   __________   __________      illegal
+           illegal      illegal      illegal      illegal      illegal
+"""
+
+   Correct solution:
+	q_values_k_0_action_west: """
+           illegal       0.0000      illegal       0.0000       0.0000
+           illegal       0.0000   __________       0.0000       0.0000
+           illegal       0.0000      illegal       0.0000       0.0000
+           illegal       0.0000   __________   __________       0.0000
+           illegal       0.0000       0.0000       0.0000       0.0000
+"""
+
 Q-Values at iteration 0 for action 'exit' are NOT correct.   Student solution:
 	q_values_k_0_action_exit: """
            illegal      illegal      illegal      illegal      illegal
@@ -69,23 +87,5 @@ Q-Values at iteration 0 for action 'exit' are NOT correct.   Student solution:
             0.0000      illegal       0.0000      illegal      illegal
             0.0000      illegal   __________   __________      illegal
             0.0000      illegal      illegal      illegal      illegal
-"""
-
-Q-Values at iteration 0 for action 'east' are NOT correct.   Student solution:
-	q_values_k_0_action_east: """
-           illegal      illegal      illegal      illegal      illegal
-           illegal      illegal   __________      illegal      illegal
-           illegal      illegal      illegal      illegal      illegal
-           illegal      illegal   __________   __________      illegal
-           illegal      illegal      illegal      illegal      illegal
-"""
-
-   Correct solution:
-	q_values_k_0_action_east: """
-           illegal       0.0000      illegal       0.0000       0.0000
-           illegal       0.0000   __________       0.0000       0.0000
-           illegal       0.0000      illegal       0.0000       0.0000
-           illegal       0.0000   __________   __________       0.0000
-           illegal       0.0000       0.0000       0.0000       0.0000
 """
 
